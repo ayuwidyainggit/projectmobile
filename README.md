@@ -1,0 +1,21 @@
+# PROJECT APLIKASI MOBILE
+
+MEMBUAT APLIKASI TOKO FURNITURE
+
+--> Di dalam aplikasi ini , terdapat kegiatan perusahaan berupa penjualan, pembelian dan pencatatan persediaan.
+
+MINGGU 8 ==> Masih menggunakan aplikasi yang sama https://github.com/ayuwidyainggit/AplikasiMobile karena masih kesulitan dalam mengubah menu
+             menjadi off canvas maka kita mengganti templatenya.
+MINGGU 9 (15/11/18) ==> Membuat menu navigasi, menggunakan off canvas.
+						dalam user interface ini terdapat beberapa menu yaitu :
+						1. menu Home
+						   ==> untuk kembali kehalaman awal
+						2. menu Pembelian
+						   ==> merupakan menu dropdown dengan menu lagi yaitu :
+						   1)  input pembelian
+						   2) laporan pembelian barang jadi
+						   3) laporan pebelian bahan baku
+						3. menu Penjualan
+						   ==> merupakan menu dropdown dengan menu lagi di dalamnya yaitu :
+						   1) input penjualan
+						   2) lap penjualan
