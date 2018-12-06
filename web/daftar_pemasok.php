@@ -391,6 +391,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <th>Nama Suplier</th>
             <th>Email </th>
             <th>No Telp</th>
+            <th>Ubah</th>
           </tr>
         </thead>
         <tbody><?php 
@@ -407,17 +408,155 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                 <td><?php echo $data['nm_pemasok']; ?></td>
                                                 <td><?php echo $data['email']; ?></td>
                                                 <td><?php echo $data['no_telp']; ?></td>
+												<td>
+													<a id="edit_data" data-toggle="modal" data-target="#edit" 
+														data-id="<?php echo $data['id_beli'] ?>" 
+														data-ket="<?php echo $data['tgl_pembelian']; ?>" 
+														data-tgl="<?php echo $data['nm_pemasok']; ?>" 
+														data-jml="<?php echo $data['qty'] ?>"  
+														class="btn btn-info" >
+														<i class="fa fa-edit"></i>Edit
+													</a>
+													<a onclick="return confirm('Yakin akan Menghapus Data ini?')" 
+														href="?page=masuk&aksi=hapus&id=<?php echo $data['kode']; ?>" 
+														class="btn btn-danger" >
+													<i class="fa fa-trash"></i>Hapus
+													</a>
+												</td>
                                             </tr>
                                     <?php 
                                          }
                                         }
                                     ?>
-        </tbody>
+									<!--halaman ubah-->
+									
+					<?php
+						$pemasok=("SELECT id_pemasok, nm_pemasok from pemasok");
+						$pemasok_query = mysqli_query($koneksidb,$pemasok);
+				?>
+				<div class="panel-body">
+               
+                <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Form Ubah Data</h4>
+                            </div>
+                            <div class="modal-body">
+                              
+                              <form role="form" method="POST">           
+                    </div>
+					
+								<div class="form-group">
+                                    <label>Tanggal Pembelian</label>
+                                    <input class="form-control" type="date" name="tgl_pembelian" placeholder="Input tgl" />
+                                </div>
+								<div class="form-group">
+								
+                                    <label>Pemasok</label>
+									<select  class="form-control" name="id_pemasok" id="id_pemasok" placeholder="id_pemasok" > 
+										<?php
+										while ($pemasok_tampil=mysqli_fetch_assoc($pemasok_query)){
+										echo "<option value='".$pemasok_tampil['id_pemasok']."'>".$pemasok_tampil['nm_pemasok']."</option>";
+											}
+										?>
+                        			</select> 
+                                </div>
+								<div class="form-group">
+								
+                                    <label>Jenis Pembelian</label>
+									<select  class="form-control" name="jenis_pembelian" id="jenis_pembelian" placeholder="jenis_pembelian" > 
+										<option>Gelas</option>
+										<option>Bahan Baku</option>
+                        			</select> 
+                                </div>
+								<div class="form-group">
+                                    <label>Qty</label>
+                                    <input class="form-control" type="text" name="qty" placeholder="Input qty" />
+                                </div>
+								<div class="form-group">
+                                    <label>Harga Satuan</label>
+                                    <input class="form-control" type="text" name="harga" placeholder="Input tgl" />
+                                </div>
+								<div class="form-group">
+                                    <label>Total Harga</label>
+                                    <input class="form-control" type="date" name="total" placeholder="Input tgl" />
+                                </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <input type="submit" name="simpan" value="Simpan" class="btn btn-primary">
+                            </div>
+                           </form>
+
+                                <?php
+
+                                    if (isset($_POST['ubah'])){
+
+                                        $tgl_pembelian = $_POST['tgl_pembelian'];
+                                        $id_pemasok = $_POST['id_pemasok'];
+                                        $jenis_pembelian = $_POST['jenis_pembelian'];
+                                        $qty = $_POST['qty'];
+                                        $harga = $_POST['harga'];
+                                        $total = $_POST['total'];
+
+
+
+                                        $sql = $koneksi->query("update pembelian set  tgl_pembelian='$tgl_pembelian', id_pemasok='$id_pemasok', jenis_pembelian='$jenis_pembelian', qty ='$qty', harga='$harga', total='$total'  where id_beli='$id_beli'");
+                                        
+                                        if ($sql){
+                                            ?>
+                                                <script type="text/javascript">
+                                                    alert("ubah data berhasil");
+                                                    window,location.href="?page=keluar";
+                                                </script>
+                                            <?php
+                                        }
+
+                                    }
+
+                                ?>
+
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <script src="assets/js/jquery-1.10.2.js"></script>
+
+            <script type="text/javascript">
+
+            $(document).on("click", "#edit_data", function(){
+
+                var tgl_pembelian = $(this).data('tgl_pembelian');
+                var id_pemasok = $(this).data('id_pemasok');
+                var jenis_pembelian = $(this).data('jenis_pembelian');
+                var qty = $(this).data('qty');
+                var harga = $(this).data('harga');
+                var total = $(this).data('total');
+
+                $("modal_edit #tgl_pembelian").val(tgl_pembelian);
+                $("modal_edit #id_pemasok").val(id_pemasok);
+                $("modal_edit #jenis_pembelian").val(jenis_pembelian);
+                $("modal_edit #qty").val(qty);
+                $("modal_edit #harga").val(harga);
+                $("modal_edit #total").val(total);
+            })
+
+            </script>
+
+
+    <!-- akhir halaman ubah-->
+         </tbody>
       </table>
     </div>
   </div>
 </div>
 </section>
+
+<!--sidebar end-->
+<!--main content start-->
  <!-- footer -->
           <div class="footer">
             <div class="wthree-copyright">
@@ -425,6 +564,103 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
           </div>
   <!-- / footer -->
-</section>      
+</section>
+<!--main content end-->
+</section>
+<script src="js/bootstrap.js"></script>
+<script src="js/jquery.dcjqaccordion.2.7.js"></script>
+<script src="js/scripts.js"></script>
+<script src="js/jquery.slimscroll.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
+<script src="js/jquery.scrollTo.js"></script>
+<!-- morris JavaScript -->  
+<script>
+    $(document).ready(function() {
+        //BOX BUTTON SHOW AND CLOSE
+       jQuery('.small-graph-box').hover(function() {
+          jQuery(this).find('.box-button').fadeIn('fast');
+       }, function() {
+          jQuery(this).find('.box-button').fadeOut('fast');
+       });
+       jQuery('.small-graph-box .box-close').click(function() {
+          jQuery(this).closest('.small-graph-box').fadeOut(200);
+          return false;
+       });
+       
+        //CHARTS
+        function gd(year, day, month) {
+            return new Date(year, month - 1, day).getTime();
+        }
+        
+        graphArea2 = Morris.Area({
+            element: 'hero-area',
+            padding: 10,
+        behaveLikeLine: true,
+        gridEnabled: false,
+        gridLineColor: '#dddddd',
+        axes: true,
+        resize: true,
+        smooth:true,
+        pointSize: 0,
+        lineWidth: 0,
+        fillOpacity:0.85,
+            data: [
+                {period: '2015 Q1', iphone: 2668, ipad: null, itouch: 2649},
+                {period: '2015 Q2', iphone: 15780, ipad: 13799, itouch: 12051},
+                {period: '2015 Q3', iphone: 12920, ipad: 10975, itouch: 9910},
+                {period: '2015 Q4', iphone: 8770, ipad: 6600, itouch: 6695},
+                {period: '2016 Q1', iphone: 10820, ipad: 10924, itouch: 12300},
+                {period: '2016 Q2', iphone: 9680, ipad: 9010, itouch: 7891},
+                {period: '2016 Q3', iphone: 4830, ipad: 3805, itouch: 1598},
+                {period: '2016 Q4', iphone: 15083, ipad: 8977, itouch: 5185},
+                {period: '2017 Q1', iphone: 10697, ipad: 4470, itouch: 2038},
+            
+            ],
+            lineColors:['#eb6f6f','#926383','#eb6f6f'],
+            xkey: 'period',
+            redraw: true,
+            ykeys: ['iphone', 'ipad', 'itouch'],
+            labels: ['All Visitors', 'Returning Visitors', 'Unique Visitors'],
+            pointSize: 2,
+            hideHover: 'auto',
+            resize: true
+        });
+        
+       
+    });
+    </script>
+<!-- calendar -->
+    <script type="text/javascript" src="js/monthly.js"></script>
+    <script type="text/javascript">
+        $(window).load( function() {
+
+            $('#mycalendar').monthly({
+                mode: 'event',
+                
+            });
+
+            $('#mycalendar2').monthly({
+                mode: 'picker',
+                target: '#mytarget',
+                setWidth: '250px',
+                startHidden: true,
+                showTrigger: '#mytarget',
+                stylePast: true,
+                disablePast: true
+            });
+
+        switch(window.location.protocol) {
+        case 'http:':
+        case 'https:':
+        // running on a server, should be good.
+        break;
+        case 'file:':
+        alert('Just a heads-up, events will not work when run locally.');
+        }
+
+        });
+    </script>
+    <!-- //calendar -->
 </body>
 </html>

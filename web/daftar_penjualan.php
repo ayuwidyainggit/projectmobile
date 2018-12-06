@@ -347,6 +347,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             <th>Harga Satuan</th>
                                             <th>Total</th>
                                             <th>Lihat Faktur</th>
+                                            <th>Ubah</th>
           </tr>
         </thead>
         <tbody>
@@ -367,11 +368,146 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                 <td class="text-primary">
                                                      <a title="Lihat Faktur Penjualan" href=penjualan_faktur.php?id_penjualan=<?php echo $data['id_penjualan']; ?>>CEK</a>
                                                 </td>
+												<td>
+													<a id="edit_data" data-toggle="modal" data-target="#edit" 
+														data-id="<?php echo $data['id_beli'] ?>" 
+														data-ket="<?php echo $data['tgl_pembelian']; ?>" 
+														data-tgl="<?php echo $data['nm_pemasok']; ?>" 
+														data-jml="<?php echo $data['qty'] ?>"  
+														class="btn btn-info" >
+														<i class="fa fa-edit"></i>Edit
+													</a>
+													<a onclick="return confirm('Yakin akan Menghapus Data ini?')" 
+														href="?page=masuk&aksi=hapus&id=<?php echo $data['kode']; ?>" 
+														class="btn btn-danger" >
+													<i class="fa fa-trash"></i>Hapus
+													</a>
+												</td>
                                             </tr>
                                     <?php 
                                          }
                                         }
                                     ?>
+									<!--halaman ubah-->
+									
+					<?php
+						$pemasok=("SELECT id_pemasok, nm_pemasok from pemasok");
+						$pemasok_query = mysqli_query($koneksidb,$pemasok);
+				?>
+				<div class="panel-body">
+               
+                <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Form Ubah Data</h4>
+                            </div>
+                            <div class="modal-body">
+                              
+                              <form role="form" method="POST">           
+                    </div>
+					
+								<div class="form-group">
+                                    <label>Tanggal Pembelian</label>
+                                    <input class="form-control" type="date" name="tgl_pembelian" placeholder="Input tgl" />
+                                </div>
+								<div class="form-group">
+								
+                                    <label>Pemasok</label>
+									<select  class="form-control" name="id_pemasok" id="id_pemasok" placeholder="id_pemasok" > 
+										<?php
+										while ($pemasok_tampil=mysqli_fetch_assoc($pemasok_query)){
+										echo "<option value='".$pemasok_tampil['id_pemasok']."'>".$pemasok_tampil['nm_pemasok']."</option>";
+											}
+										?>
+                        			</select> 
+                                </div>
+								<div class="form-group">
+								
+                                    <label>Jenis Pembelian</label>
+									<select  class="form-control" name="jenis_pembelian" id="jenis_pembelian" placeholder="jenis_pembelian" > 
+										<option>Gelas</option>
+										<option>Bahan Baku</option>
+                        			</select> 
+                                </div>
+								<div class="form-group">
+                                    <label>Qty</label>
+                                    <input class="form-control" type="text" name="qty" placeholder="Input qty" />
+                                </div>
+								<div class="form-group">
+                                    <label>Harga Satuan</label>
+                                    <input class="form-control" type="text" name="harga" placeholder="Input tgl" />
+                                </div>
+								<div class="form-group">
+                                    <label>Total Harga</label>
+                                    <input class="form-control" type="date" name="total" placeholder="Input tgl" />
+                                </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <input type="submit" name="simpan" value="Simpan" class="btn btn-primary">
+                            </div>
+                           </form>
+
+                                <?php
+
+                                    if (isset($_POST['ubah'])){
+
+                                        $tgl_pembelian = $_POST['tgl_pembelian'];
+                                        $id_pemasok = $_POST['id_pemasok'];
+                                        $jenis_pembelian = $_POST['jenis_pembelian'];
+                                        $qty = $_POST['qty'];
+                                        $harga = $_POST['harga'];
+                                        $total = $_POST['total'];
+
+
+
+                                        $sql = $koneksi->query("update pembelian set  tgl_pembelian='$tgl_pembelian', id_pemasok='$id_pemasok', jenis_pembelian='$jenis_pembelian', qty ='$qty', harga='$harga', total='$total'  where id_beli='$id_beli'");
+                                        
+                                        if ($sql){
+                                            ?>
+                                                <script type="text/javascript">
+                                                    alert("ubah data berhasil");
+                                                    window,location.href="?page=keluar";
+                                                </script>
+                                            <?php
+                                        }
+
+                                    }
+
+                                ?>
+
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <script src="assets/js/jquery-1.10.2.js"></script>
+
+            <script type="text/javascript">
+
+            $(document).on("click", "#edit_data", function(){
+
+                var tgl_pembelian = $(this).data('tgl_pembelian');
+                var id_pemasok = $(this).data('id_pemasok');
+                var jenis_pembelian = $(this).data('jenis_pembelian');
+                var qty = $(this).data('qty');
+                var harga = $(this).data('harga');
+                var total = $(this).data('total');
+
+                $("modal_edit #tgl_pembelian").val(tgl_pembelian);
+                $("modal_edit #id_pemasok").val(id_pemasok);
+                $("modal_edit #jenis_pembelian").val(jenis_pembelian);
+                $("modal_edit #qty").val(qty);
+                $("modal_edit #harga").val(harga);
+                $("modal_edit #total").val(total);
+            })
+
+            </script>
+
+
+    <!-- akhir halaman ubah-->
         </tbody>
       </table>
     </div>

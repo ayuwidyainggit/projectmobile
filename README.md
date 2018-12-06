@@ -21,3 +21,4 @@ MINGGU 9 (15/11/18) ==> Membuat menu navigasi, menggunakan off canvas.
 						   2) lap penjualan
 						   
 MINGGU 10 - 11 ==> membuat form input data dan laporannya
+MINGGU 12 ==> menambahkan CRUD  ( delete dan edit pada setiap laporan)

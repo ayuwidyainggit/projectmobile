@@ -370,29 +370,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                 <td><?php echo $data['qty']; ?></td>
                                                 <td><?php echo number_format($data['harga'], $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan); ?></td>
                                                 <td> <?php echo number_format ($jml, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan); ?></td>
-                                    <td>
-                                    <a id="edit_data" data-toggle="modal" data-target="#edit" 
-                                        data-id="<?php echo $data['kode'] ?>" 
-                                        data-ket="<?php echo $data['Keterangan']; ?>" 
-                                        data-tgl="<?php echo $data['tgl']; ?>" 
-                                        data-jml="<?php echo $data['jumlah'] ?>"  
-                                        class="btn btn-info" >
-                                        <i class="fa fa-edit"></i>Edit
-                                    </a>
-                                    <a onclick="return confirm('Yakin akan Menghapus Data ini?')" 
-                                        href="?page=masuk&aksi=hapus&id=<?php echo $data['kode']; ?>" 
-                                        class="btn btn-danger" >
-                                        <i class="fa fa-trash"></i>Hapus
-                                    </a>
-                                </td>
+												<td>
+													<a id="edit_data" data-toggle="modal" data-target="#edit" 
+														data-id="<?php echo $data['id_beli'] ?>" 
+														data-ket="<?php echo $data['tgl_pembelian']; ?>" 
+														data-tgl="<?php echo $data['nm_pemasok']; ?>" 
+														data-jml="<?php echo $data['qty'] ?>"  
+														class="btn btn-info" >
+														<i class="fa fa-edit"></i>Edit
+													</a>
+													<a onclick="return confirm('Yakin akan Menghapus Data ini?')" 
+														href="?page=masuk&aksi=hapus&id=<?php echo $data['kode']; ?>" 
+														class="btn btn-danger" >
+													<i class="fa fa-trash"></i>Hapus
+													</a>
+												</td>
                                             </tr>
                                     <?php 
                                          }
                                         }
                                     ?>
                                     <!--halaman ubah-->
-   
-    <div class="panel-body">
+									
+					<?php
+						$pemasok=("SELECT id_pemasok, nm_pemasok from pemasok");
+						$pemasok_query = mysqli_query($koneksidb,$pemasok);
+				?>
+				<div class="panel-body">
                
                 <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -403,55 +407,44 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </div>
                             <div class="modal-body">
                               
-                              <form role="form" method="POST">
-
-                              
+                              <form role="form" method="POST">           
                     </div>
-                    <div class="form-group">
-                        <label >Tgl Pembelian</label>
-                            <input type="date" class="form-control" name="tgl_pembelian" required>
-                        </div>
-                    </div>
-                   <div class="form-group">
-                        <label >Pemasok</label>
-                        <select name="id_pemasok" id="id_pemasok">  
-                        <?php
-                        while ($pemasok_tampil=mysqli_fetch_assoc($pemasok_query)){
-                        echo "<option value='".$pemasok_tampil['id_pemasok']."'>".$pemasok_tampil['nm_pemasok']."</option>";
-                        }
-                        ?>
-                        </select> 
-                    </div>
-                </div>
-               
-                     <div class="form-group">
-                        <label >Jenis Pembelian</label>
-                            <select name="jenis_pembelian">
-                                <option>Gelas</option>
-                                <option>Bahan Baku</option>
-                            </select>
-                        </div>      
-                    </div>
-
-                   <div class="form-group">
-                        <label >Qty</label>
-                              <input type="number" class="form-control" rows="3" name="qty" id="qty" required onBlur="hitung()">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Harga Satuan</label>
-                        <div class="col-sm-6">
-                           <input type="number" class="form-control" rows="3" name="harga" id="harga" required onBlur="hitung()">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label >Total Harga</label>
-                           <input type="text" class="form-control" rows="3" name="total" id="total" readonly>
-                        </div>
-                    </div>  
-
-                             
-                            </div>
+					
+								<div class="form-group">
+                                    <label>Tanggal Pembelian</label>
+                                    <input class="form-control" type="date" name="tgl_pembelian" placeholder="Input tgl" />
+                                </div>
+								<div class="form-group">
+								
+                                    <label>Pemasok</label>
+									<select  class="form-control" name="id_pemasok" id="id_pemasok" placeholder="id_pemasok" > 
+										<?php
+										while ($pemasok_tampil=mysqli_fetch_assoc($pemasok_query)){
+										echo "<option value='".$pemasok_tampil['id_pemasok']."'>".$pemasok_tampil['nm_pemasok']."</option>";
+											}
+										?>
+                        			</select> 
+                                </div>
+								<div class="form-group">
+								
+                                    <label>Jenis Pembelian</label>
+									<select  class="form-control" name="jenis_pembelian" id="jenis_pembelian" placeholder="jenis_pembelian" > 
+										<option>Gelas</option>
+										<option>Bahan Baku</option>
+                        			</select> 
+                                </div>
+								<div class="form-group">
+                                    <label>Qty</label>
+                                    <input class="form-control" type="text" name="qty" placeholder="Input qty" />
+                                </div>
+								<div class="form-group">
+                                    <label>Harga Satuan</label>
+                                    <input class="form-control" type="text" name="harga" placeholder="Input tgl" />
+                                </div>
+								<div class="form-group">
+                                    <label>Total Harga</label>
+                                    <input class="form-control" type="date" name="total" placeholder="Input tgl" />
+                                </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                 <input type="submit" name="simpan" value="Simpan" class="btn btn-primary">
