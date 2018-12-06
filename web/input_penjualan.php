@@ -6,11 +6,46 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!DOCTYPE html>
 <html lang="en">
+
 <?php
 session_start();
 include_once "session.php";
+
 include "koneksi.php";
+
+
+    $sql="select MAX(id_penjualan) from penjualan";
+    $hasil = $koneksidb->query($sql);
+    $data = $hasil->fetch_array();
+
+    $MaxID = $data[0];  //data kode perusahaan terakhir disimpan di variabel baru $MaxID
+
+    $no_urut = (int) substr($MaxID,2,6);  //Memisahkan karakter dengan angka menggunakan fungsi substr
+                        //string di $MaxID akan dipisahkan menjadi"PM" dan "000001"
+                        //angka 0 pertama dimulai dari index ke-2 dengan panjang 6(sampaiangka 1).000001  dimasukkan ke variabel $no_urut
+    $no_urut++;               //lalu variabel no_urut ditambah 1
+
+    $new_ID = "JL".sprintf("%06s","$no_urut");  //angka yang telah ditambah dengan dengan 1 kemudian  digabung kembali dengan "PM"
+                          //sprintf digunakan untuk memanggil variabel dalam format yang sudah ditentukan
+                          //%s merupakan format pemanggilan variabel yang bernilai string
 ?>
+<script>
+function hitung() {
+        var qty_jual=parseInt(document.getElementById("qty_jual").value);
+        var harga_satuan=parseInt(document.getElementById("harga_satuan").value); 
+        var total = qty_jual * harga_satuan;        
+        document.getElementById('total').value = total;
+ if (isNaN(qty_jual)){ 
+        document.getElementById('total').value = harga_satuan;                                 
+ }
+ if (isNaN(harga_satuan)){ 
+        document.getElementById('total').value = qty_jual;                                 
+ }
+ if ((isNaN(qty_jual))&&(isNaN(harga_satuan))){ 
+        document.getElementById('total').value = 0;                                 
+ }
+}
+</script>
 <head>
 <title>Visitors an Admin Panel Category Bootstrap Responsive Website Template | Home :: w3layouts</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -268,6 +303,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>Home</span>
                     </a>
                 </li>
+                 </li>
+                 </li>
                  <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book" ></i>
@@ -285,24 +322,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>Pembelian</span>
                     </a>
                     <ul class="sub">
-						<li><a href="input_pembelian.php">Input Pembelian</a></li>
-						<li><a href="daftar_pembelian_bb.php">Laporan Pembelian Barang Jadi</a></li>
+                        <li><a href="input_pembelian.php">Input Pembelian</a></li>
+                        <li><a href="daftar_pembelian_bb.php">Laporan Pembelian Barang Jadi</a></li>
                         <li><a href="daftar_pembelian_gelas.php">Laporan Pembelian Bahan Baku</a></li>
                     </ul>
                 </li>
-				 <li class="sub-menu">
+                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book" ></i>
                         <span>Penjualan</span>
                     </a>
                     <ul class="sub">
-						<li><a href="input_penjualan.php">Input Penjualan</a></li>
-						<li><a href="daftar_penjualan.php">Laporan Penjualan</a></li>
+                        <li><a href="input_penjualan.php">Input Penjualan</a></li>
+                        <li><a href="daftar_penjualan.php">Laporan Penjualan</a></li>
                     </ul>
                 </li>
-
                 <li>
-                    <a href="login.html">
+                    <a href="login.php">
                         <i class="fa fa-user"></i>
                         <span>Login Page</span>
                     </a>
@@ -310,15 +346,66 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </ul>            </div>
         <!-- sidebar menu end-->
     </div>
-</aside>
+</aside><!--sidebar end-->
+<!--main content start-->
+<section id="main-content">
+	<section class="wrapper">
+		<!-- //market-->
+		
+		
+		<div class="row">
+        <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Input Data Penjualan
+            </header>
+            <div class="panel-body">
+
+                <form class="form-horizontal bucket-form" action="penjualan_i_res.php" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Id Penjualan</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" value ="<?php echo $new_ID?>" name="id_penjualan" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Customer</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="nm_pelanggan" required>
+                        </div>
+                    </div>
+                   <div class="form-group">
+                        <label class="col-sm-3 control-label">Qty</label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control" name="qty_jual" id="qty_jual" required onblur="hitung()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Harga Satuan</label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control" name="harga_satuan" id="harga_satuan" required onblur="hitung()">
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label class="col-sm-3 control-label">Total Penjulan</label>
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control" name="total" id="total" readonly>
+                        </div>
+                    </div>  
+                 <button type="submit" class="btn btn-primary pull-right">SIMPAN</button>
+                </form>
+            </div>
+        </section>
+</body>
+</html>
 <!--sidebar end-->
 <!--main content start-->
  <!-- footer -->
-		  <div class="footer">
-			<div class="wthree-copyright">
-			  <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
-			</div>
-		  </div>
+          <div class="footer">
+            <div class="wthree-copyright">
+              <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+            </div>
+          </div>
   <!-- / footer -->
 </section>
 <!--main content end-->
@@ -330,28 +417,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="js/jquery.nicescroll.js"></script>
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="js/jquery.scrollTo.js"></script>
-<!-- morris JavaScript -->	
+<!-- morris JavaScript -->  
 <script>
-	$(document).ready(function() {
-		//BOX BUTTON SHOW AND CLOSE
-	   jQuery('.small-graph-box').hover(function() {
-		  jQuery(this).find('.box-button').fadeIn('fast');
-	   }, function() {
-		  jQuery(this).find('.box-button').fadeOut('fast');
-	   });
-	   jQuery('.small-graph-box .box-close').click(function() {
-		  jQuery(this).closest('.small-graph-box').fadeOut(200);
-		  return false;
-	   });
-	   
-	    //CHARTS
-	    function gd(year, day, month) {
-			return new Date(year, month - 1, day).getTime();
-		}
-		
-		graphArea2 = Morris.Area({
-			element: 'hero-area',
-			padding: 10,
+    $(document).ready(function() {
+        //BOX BUTTON SHOW AND CLOSE
+       jQuery('.small-graph-box').hover(function() {
+          jQuery(this).find('.box-button').fadeIn('fast');
+       }, function() {
+          jQuery(this).find('.box-button').fadeOut('fast');
+       });
+       jQuery('.small-graph-box .box-close').click(function() {
+          jQuery(this).closest('.small-graph-box').fadeOut(200);
+          return false;
+       });
+       
+        //CHARTS
+        function gd(year, day, month) {
+            return new Date(year, month - 1, day).getTime();
+        }
+        
+        graphArea2 = Morris.Area({
+            element: 'hero-area',
+            padding: 10,
         behaveLikeLine: true,
         gridEnabled: false,
         gridLineColor: '#dddddd',
@@ -361,62 +448,62 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         pointSize: 0,
         lineWidth: 0,
         fillOpacity:0.85,
-			data: [
-				{period: '2015 Q1', iphone: 2668, ipad: null, itouch: 2649},
-				{period: '2015 Q2', iphone: 15780, ipad: 13799, itouch: 12051},
-				{period: '2015 Q3', iphone: 12920, ipad: 10975, itouch: 9910},
-				{period: '2015 Q4', iphone: 8770, ipad: 6600, itouch: 6695},
-				{period: '2016 Q1', iphone: 10820, ipad: 10924, itouch: 12300},
-				{period: '2016 Q2', iphone: 9680, ipad: 9010, itouch: 7891},
-				{period: '2016 Q3', iphone: 4830, ipad: 3805, itouch: 1598},
-				{period: '2016 Q4', iphone: 15083, ipad: 8977, itouch: 5185},
-				{period: '2017 Q1', iphone: 10697, ipad: 4470, itouch: 2038},
-			
-			],
-			lineColors:['#eb6f6f','#926383','#eb6f6f'],
-			xkey: 'period',
+            data: [
+                {period: '2015 Q1', iphone: 2668, ipad: null, itouch: 2649},
+                {period: '2015 Q2', iphone: 15780, ipad: 13799, itouch: 12051},
+                {period: '2015 Q3', iphone: 12920, ipad: 10975, itouch: 9910},
+                {period: '2015 Q4', iphone: 8770, ipad: 6600, itouch: 6695},
+                {period: '2016 Q1', iphone: 10820, ipad: 10924, itouch: 12300},
+                {period: '2016 Q2', iphone: 9680, ipad: 9010, itouch: 7891},
+                {period: '2016 Q3', iphone: 4830, ipad: 3805, itouch: 1598},
+                {period: '2016 Q4', iphone: 15083, ipad: 8977, itouch: 5185},
+                {period: '2017 Q1', iphone: 10697, ipad: 4470, itouch: 2038},
+            
+            ],
+            lineColors:['#eb6f6f','#926383','#eb6f6f'],
+            xkey: 'period',
             redraw: true,
             ykeys: ['iphone', 'ipad', 'itouch'],
             labels: ['All Visitors', 'Returning Visitors', 'Unique Visitors'],
-			pointSize: 2,
-			hideHover: 'auto',
-			resize: true
-		});
-		
-	   
-	});
-	</script>
+            pointSize: 2,
+            hideHover: 'auto',
+            resize: true
+        });
+        
+       
+    });
+    </script>
 <!-- calendar -->
-	<script type="text/javascript" src="js/monthly.js"></script>
-	<script type="text/javascript">
-		$(window).load( function() {
+    <script type="text/javascript" src="js/monthly.js"></script>
+    <script type="text/javascript">
+        $(window).load( function() {
 
-			$('#mycalendar').monthly({
-				mode: 'event',
-				
-			});
+            $('#mycalendar').monthly({
+                mode: 'event',
+                
+            });
 
-			$('#mycalendar2').monthly({
-				mode: 'picker',
-				target: '#mytarget',
-				setWidth: '250px',
-				startHidden: true,
-				showTrigger: '#mytarget',
-				stylePast: true,
-				disablePast: true
-			});
+            $('#mycalendar2').monthly({
+                mode: 'picker',
+                target: '#mytarget',
+                setWidth: '250px',
+                startHidden: true,
+                showTrigger: '#mytarget',
+                stylePast: true,
+                disablePast: true
+            });
 
-		switch(window.location.protocol) {
-		case 'http:':
-		case 'https:':
-		// running on a server, should be good.
-		break;
-		case 'file:':
-		alert('Just a heads-up, events will not work when run locally.');
-		}
+        switch(window.location.protocol) {
+        case 'http:':
+        case 'https:':
+        // running on a server, should be good.
+        break;
+        case 'file:':
+        alert('Just a heads-up, events will not work when run locally.');
+        }
 
-		});
-	</script>
-	<!-- //calendar -->
+        });
+    </script>
+    <!-- //calendar -->
 </body>
 </html>

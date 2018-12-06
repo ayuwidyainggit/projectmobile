@@ -20,6 +20,6 @@ if (!$hasil) {
     onClick='self.history.back()'>";
     exit;
 } else {
-    header("location:pemasok_t.php");
+    header("location:daftar_pemasok.php");
 } 
 ?>

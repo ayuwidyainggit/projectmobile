@@ -19,3 +19,5 @@ MINGGU 9 (15/11/18) ==> Membuat menu navigasi, menggunakan off canvas.
 						   ==> merupakan menu dropdown dengan menu lagi di dalamnya yaitu :
 						   1) input penjualan
 						   2) lap penjualan
+						   
+MINGGU 10 - 11 ==> membuat form input data dan laporannya

@@ -5,12 +5,6 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!DOCTYPE html>
-<html lang="en">
-<?php
-session_start();
-include_once "session.php";
-include "koneksi.php";
-?>
 <head>
 <title>Visitors an Admin Panel Category Bootstrap Responsive Website Template | Home :: w3layouts</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -268,26 +262,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>Home</span>
                     </a>
                 </li>
-                 <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="fa fa-book" ></i>
-                        <span>Pemasok</span>
-                    </a>
-                    <ul class="sub">
-                        <li><a href="input_pemasok.php">Input Suplier</a></li>
-                        <li><a href="daftar_pemasok.php">Daftar Suplier</a></li>
-                    </ul>
-                </li>
-
+                
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book" ></i>
                         <span>Pembelian</span>
                     </a>
                     <ul class="sub">
-						<li><a href="input_pembelian.php">Input Pembelian</a></li>
-						<li><a href="daftar_pembelian_bb.php">Laporan Pembelian Barang Jadi</a></li>
-                        <li><a href="daftar_pembelian_gelas.php">Laporan Pembelian Bahan Baku</a></li>
+						<li><a href="pembelian_i.php">Input Pembelian</a></li>
+						<li><a href="pembelian_gelas_t.php">Laporan Pembelian Barang Jadi</a></li>
+                        <li><a href="pembelian_bb_t.php">Laporan Pembelian Bahan Baku</a></li>
                     </ul>
                 </li>
 				 <li class="sub-menu">
@@ -296,8 +280,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>Penjualan</span>
                     </a>
                     <ul class="sub">
-						<li><a href="input_penjualan.php">Input Penjualan</a></li>
-						<li><a href="daftar_penjualan.php">Laporan Penjualan</a></li>
+						<li><a href="penjualan_i.php">Input Penjualan</a></li>
+						<li><a href="penjualan_t.php">Laporan Penjualan</a></li>
                     </ul>
                 </li>
 
@@ -313,110 +297,115 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </aside>
 <!--sidebar end-->
 <!--main content start-->
- <!-- footer -->
-		  <div class="footer">
-			<div class="wthree-copyright">
-			  <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
-			</div>
-		  </div>
-  <!-- / footer -->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="table-agile-info">
+ <div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="title"> Catatan Penjualan Gelas </h4>
+        </div>
+        <?php  
+                                        $sql_cek="select * from penjualan";
+                                        $query_cek = $koneksidb->query($sql_cek);
+                                        $result_cek = $query_cek->num_rows;
+                                        if($result_cek=='0'){
+                                        echo "<center>Maaf Data Yang anda cari tidak ada <br> Silahkan Masukkan Data Terlebih Dahulu</center>";
+                                         }
+
+                                         else{
+                                ?>
+    
+    <div>
+      <table class="table" ui-jq="footable" ui-options='{
+        "paging": {
+          "enabled": true
+        },
+        "filtering": {
+          "enabled": true
+        },
+        "sorting": {
+          "enabled": true
+        }}'>
+        <thead>
+          <tr>
+            <th data-breakpoints="xs">ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th data-breakpoints="xs">Job Title</th>
+           
+            <th data-breakpoints="xs sm md" data-title="DOB">Date of Birth</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-expanded="true">
+            <td>1</td>
+            <td>Dennise</td>
+            <td>Fuhrman</td>
+            <td>High School History Teacher</td>
+            
+            <td>July 25th 1960</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Elodia</td>
+            <td>Weisz</td>
+            <td>Wallpaperer Helper</td>
+          
+            <td>March 30th 1982</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Raeann</td>
+            <td>Haner</td>
+            <td>Internal Medicine Nurse Practitioner</td>
+           
+            <td>February 26th 1966</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Junie</td>
+            <td>Landa</td>
+            <td>Offbearer</td>
+           
+            <td>March 29th 1966</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Solomon</td>
+            <td>Bittinger</td>
+            <td>Roller Skater</td>
+           
+            <td>September 22nd 1964</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Bar</td>
+            <td>Lewis</td>
+            <td>Clown</td>
+           
+            <td>August 4th 1991</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Usha</td>
+            <td>Leak</td>
+            <td>Ships Electronic Warfare Officer</td>
+          
+            <td>November 20th 1979</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Lorriane</td>
+            <td>Cooke</td>
+            <td>Technical Services Librarian</td>
+           
+            <td>April 7th 1969</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 </section>
-<!--main content end-->
-</section>
-<script src="js/bootstrap.js"></script>
-<script src="js/jquery.dcjqaccordion.2.7.js"></script>
-<script src="js/scripts.js"></script>
-<script src="js/jquery.slimscroll.js"></script>
-<script src="js/jquery.nicescroll.js"></script>
-<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
-<script src="js/jquery.scrollTo.js"></script>
-<!-- morris JavaScript -->	
-<script>
-	$(document).ready(function() {
-		//BOX BUTTON SHOW AND CLOSE
-	   jQuery('.small-graph-box').hover(function() {
-		  jQuery(this).find('.box-button').fadeIn('fast');
-	   }, function() {
-		  jQuery(this).find('.box-button').fadeOut('fast');
-	   });
-	   jQuery('.small-graph-box .box-close').click(function() {
-		  jQuery(this).closest('.small-graph-box').fadeOut(200);
-		  return false;
-	   });
-	   
-	    //CHARTS
-	    function gd(year, day, month) {
-			return new Date(year, month - 1, day).getTime();
-		}
-		
-		graphArea2 = Morris.Area({
-			element: 'hero-area',
-			padding: 10,
-        behaveLikeLine: true,
-        gridEnabled: false,
-        gridLineColor: '#dddddd',
-        axes: true,
-        resize: true,
-        smooth:true,
-        pointSize: 0,
-        lineWidth: 0,
-        fillOpacity:0.85,
-			data: [
-				{period: '2015 Q1', iphone: 2668, ipad: null, itouch: 2649},
-				{period: '2015 Q2', iphone: 15780, ipad: 13799, itouch: 12051},
-				{period: '2015 Q3', iphone: 12920, ipad: 10975, itouch: 9910},
-				{period: '2015 Q4', iphone: 8770, ipad: 6600, itouch: 6695},
-				{period: '2016 Q1', iphone: 10820, ipad: 10924, itouch: 12300},
-				{period: '2016 Q2', iphone: 9680, ipad: 9010, itouch: 7891},
-				{period: '2016 Q3', iphone: 4830, ipad: 3805, itouch: 1598},
-				{period: '2016 Q4', iphone: 15083, ipad: 8977, itouch: 5185},
-				{period: '2017 Q1', iphone: 10697, ipad: 4470, itouch: 2038},
-			
-			],
-			lineColors:['#eb6f6f','#926383','#eb6f6f'],
-			xkey: 'period',
-            redraw: true,
-            ykeys: ['iphone', 'ipad', 'itouch'],
-            labels: ['All Visitors', 'Returning Visitors', 'Unique Visitors'],
-			pointSize: 2,
-			hideHover: 'auto',
-			resize: true
-		});
-		
-	   
-	});
-	</script>
-<!-- calendar -->
-	<script type="text/javascript" src="js/monthly.js"></script>
-	<script type="text/javascript">
-		$(window).load( function() {
-
-			$('#mycalendar').monthly({
-				mode: 'event',
-				
-			});
-
-			$('#mycalendar2').monthly({
-				mode: 'picker',
-				target: '#mytarget',
-				setWidth: '250px',
-				startHidden: true,
-				showTrigger: '#mytarget',
-				stylePast: true,
-				disablePast: true
-			});
-
-		switch(window.location.protocol) {
-		case 'http:':
-		case 'https:':
-		// running on a server, should be good.
-		break;
-		case 'file:':
-		alert('Just a heads-up, events will not work when run locally.');
-		}
-
-		});
-	</script>
-	<!-- //calendar -->
 </body>
 </html>

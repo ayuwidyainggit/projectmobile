@@ -20,10 +20,10 @@ $sql="select * from user WHERE username='$username' AND password='$pass'";
 		$_SESSION['username'] 	= $r['username'];
 		$_SESSION['jabatan'] 	= $r['Jabatan'];
 
-		header('location:index.php');
+		header('location:index.html');
 
 	}else{
 	// kalau username ataupun password tidak terdaftar di database
-	header('location:index.php?error=1');
+	header('location:index.html?error=1');
 }
 ?>

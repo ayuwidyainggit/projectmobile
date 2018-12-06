@@ -4,7 +4,7 @@
 $myHost	= "localhost";
 $myUser	= "root";
 $myPass	= "";
-$myDbs	= "akuntansi1"; // nama database, disesuaikan dengan database di MySQL
+$myDbs	= "aplikasimobile"; // nama database, disesuaikan dengan database di MySQL
 
 # Konek ke Web Server Lokal
 $koneksidb	= mysqli_connect($myHost, $myUser, $myPass, $myDbs);

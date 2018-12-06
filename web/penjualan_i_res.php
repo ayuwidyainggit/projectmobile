@@ -21,6 +21,6 @@ if (!$hasil) {
     onClick='self.history.back()'>";
     exit;
 } else {
-    header("location:penjualan_t.php");
+    header("location:daftar_penjualan.php");
 } 
 ?>

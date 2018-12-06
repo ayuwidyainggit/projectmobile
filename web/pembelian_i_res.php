@@ -23,6 +23,6 @@ if (!$hasil) {
     onClick='self.history.back()'>";
     exit;
 } else {
-    header("location:pembelian_gelas_t.php");
+    header("location:daftar_pembelian_gelas.php");
 } 
 ?>
